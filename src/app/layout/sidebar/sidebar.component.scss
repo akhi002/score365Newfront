@@ -1,0 +1,13 @@
+nav a {
+  color: #333;
+  text-decoration: none;
+  padding: 8px 10px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+}
+nav a.active,
+nav a:hover {
+  background: #e8f4ff;
+  color: #0b5ea8;
+}

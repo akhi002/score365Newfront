@@ -1,0 +1,23 @@
+<div class="login-wrapper">
+  <div class="login-card">
+    <h3 class="title">Welcome Back</h3>
+    <p class="subtitle">Sign in to continue to Score Project</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <mat-form-field appearance="fill" class="input-field">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="username" placeholder="Enter your email" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="input-field">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" placeholder="Enter your password" />
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="login-button" type="submit">
+        Login
+      </button>
+    </form>
+    <p class="footer-text">Don't have an account? <a routerLink="/register">Sign Up</a></p>
+  </div>
+</div>

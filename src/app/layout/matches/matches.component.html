@@ -1,0 +1,47 @@
+<div class="container mt-4">
+  <h3 class="mb-3">Match List For Live Tv</h3>
+
+  <!-- Sport Filter Buttons -->
+  <div class="mb-3">
+    <button class="btn btn-success me-2" (click)="filterSport('Cricket')">Cricket</button>
+    <button class="btn btn-primary me-2" (click)="filterSport('Soccer')">Soccer</button>
+    <button class="btn btn-info" (click)="filterSport('Tennis')">Tennis</button>
+  </div>
+
+  <!-- Match Table -->
+  <div class="table-responsive">
+    <table class="table table-bordered align-middle">
+      <thead class="table-primary">
+        <tr>
+          <th>#</th>
+          <th>Event ID</th>
+          <th>Market ID</th>
+          <th>Event Name</th>
+          <th>Sport Name</th>
+          <th>Open Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let match of matches; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ match.eventId }}</td>
+          <td>{{ match.marketId }}</td>
+          <td>{{ match.eventName }}</td>
+          <td>{{ match.sportName }}</td>
+          <td>{{ match.openDate | date:'MM/dd/yyyy hh:mm a' }}</td>
+          <td>
+            <input type="text" class="form-control mb-2" [value]="match.url" readonly />
+
+            <div class="d-flex gap-2 flex-wrap">
+              <button class="btn btn-primary btn-sm" (click)="setUrl(match)">Set Url</button>
+              <button class="btn btn-success btn-sm" (click)="fetchTvUrl(match)">Fetch Tv Url</button>
+              <button class="btn btn-warning btn-sm" (click)="checkTv(match)">Check Tv</button>
+              <button class="btn btn-warning btn-sm" (click)="checkTv2(match)">Check Tv2</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
