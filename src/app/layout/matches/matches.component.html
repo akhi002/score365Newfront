@@ -1,14 +1,31 @@
-<!-- <div class="container mt-4">
-  <h3 class="mb-3">Match List For Live Tv</h3>
+<div class="container mt-4">
+  <h4>Match List For Live TV</h4>
 
-  <div class="mb-3">
-    <button class="btn btn-success me-2" (click)="filterSport('Cricket')">Cricket</button>
-    <button class="btn btn-primary me-2" (click)="filterSport('Soccer')">Soccer</button>
-    <button class="btn btn-info" (click)="filterSport('Tennis')">Tennis</button>
+  <!-- Tabs -->
+  <ul class="nav nav-tabs nav-justified small mb-3">
+    <li class="nav-item" *ngFor="let sport of sports; let i = index">
+      <a
+        class="nav-link text-white fw-semibold"
+        [class.active]="selectedSport.name === sport.name"
+        [ngClass]="getTabClass(i)"
+        href="javascript:void(0)"
+        (click)="filterMatches(sport.name)"
+      >
+        {{ sport.name }}
+      </a>
+    </li>
+  </ul>
+
+  <!-- Loader -->
+  <div *ngIf="loading" class="text-center py-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
   </div>
 
-  <div class="table-responsive">
-    <table class="table table-bordered align-middle">
+  <!-- Table -->
+  <div *ngIf="!loading" class="table-responsive">
+    <table class="table table-bordered table-hover align-middle">
       <thead class="table-primary">
         <tr>
           <th>#</th>
@@ -17,29 +34,67 @@
           <th>Event Name</th>
           <th>Sport Name</th>
           <th>Open Date</th>
+          <th>TV URL</th>
           <th>Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let match of matches; let i = index">
+        <tr *ngFor="let match of filteredMatches; let i = index">
           <td>{{ i + 1 }}</td>
           <td>{{ match.eventId }}</td>
           <td>{{ match.marketId }}</td>
           <td>{{ match.eventName }}</td>
           <td>{{ match.sportName }}</td>
-          <td>{{ match.openDate | date:'MM/dd/yyyy hh:mm a' }}</td>
-          <td>
-            <input type="text" class="form-control mb-2" [value]="match.url" readonly />
+          <td>{{ match.openDate | date : "MM/dd/yyyy hh:mm:ss a" }}</td>
 
-            <div class="d-flex gap-2 flex-wrap">
-              <button class="btn btn-primary btn-sm" (click)="setUrl(match)">Set Url</button>
-              <button class="btn btn-success btn-sm" (click)="fetchTvUrl(match)">Fetch Tv Url</button>
-              <button class="btn btn-warning btn-sm" (click)="checkTv(match)">Check Tv</button>
-              <button class="btn btn-warning btn-sm" (click)="checkTv2(match)">Check Tv2</button>
+          <!-- ✅ Show TV URL -->
+          <td>
+            <div *ngIf="match.tvUrl; else noUrl">
+              <a
+                [href]="match.tvUrl"
+                target="_blank"
+                class="text-primary text-decoration-underline"
+              >
+                {{ match.tvUrl }}
+              </a>
+            </div>
+            <ng-template #noUrl>
+              <span class="text-muted">No TV URL</span>
+            </ng-template>
+          </td>
+
+          <!-- ✅ Action Buttons -->
+          <td>
+            <div class="d-flex flex-wrap align-items-center gap-2">
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                style="width: 250px"
+                [(ngModel)]="match.url"
+              />
+              <button class="btn btn-primary btn-sm" (click)="setUrl(match)">
+                Set Url
+              </button>
+              <button
+                class="btn btn-success btn-sm"
+                (click)="fetchTvUrl(match)"
+              >
+                Fetch Tv Url
+              </button>
+              <button class="btn btn-warning btn-sm" (click)="checkTv(match)">
+                Check Tv
+              </button>
+              <button class="btn btn-warning btn-sm" (click)="checkTv2(match)">
+                Check Tv2
+              </button>
             </div>
           </td>
+        </tr>
+
+        <tr *ngIf="filteredMatches.length === 0">
+          <td colspan="8" class="text-center text-muted">No matches found.</td>
         </tr>
       </tbody>
     </table>
   </div>
-</div> -->
+</div>

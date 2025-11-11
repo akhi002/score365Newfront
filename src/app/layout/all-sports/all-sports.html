@@ -1,0 +1,127 @@
+<div class="container mt-3">
+  <h4 class="fw-bold mb-3">All Sports Matches</h4>
+
+  <table class="table table-bordered table-hover align-middle text-center">
+    <thead class="table-light">
+      <tr>
+        <th>#</th>
+        <th>MKT ID</th>
+        <th>Event Name</th>
+        <th>Mtype</th>
+        <th>Sport Name</th>
+        <th>Open Date</th>
+        <th>Select Source</th>
+        <th>Update ScoreId</th>
+        <th>Inactive</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr
+        *ngFor="
+          let match of matches
+            | slice : (currentPage - 1) * pageSize : currentPage * pageSize;
+          let i = index
+        "
+      >
+        <td>{{ (currentPage - 1) * pageSize + i + 1 }}</td>
+
+        <td >{{ match.marketId}}/ {{match.eventId }}</td>
+
+        <td>
+          <a href="#" class="text-primary fw-bold">{{ match.eventName }}</a>
+        </td>
+
+        <td>
+          <span *ngIf="match.mType" class="badge bg-primary">{{
+            match.mType
+          }}</span>
+        </td>
+
+        <td>
+          <span class="badge bg-warning text-dark">{{ match.sportName }}</span>
+        </td>
+
+        <td>{{ match.openDate | date: "dd/MM/yyyy hh:mm:ss a" }}</td>
+
+        <td>
+          <select class="form-select mb-1" [(ngModel)]="match.scoreType">
+            <option *ngFor="let s of sources" [value]="s">{{ s }}</option>
+          </select>
+          <button
+            class="btn btn-success btn-sm w-100"
+            (click)="updateSource(match)"
+          >
+            Update Source
+          </button>
+        </td>
+
+        <td>
+          <input
+            type="number"
+            [(ngModel)]="match.scoreId1"
+            class="form-control mb-1"
+            placeholder="0"
+          />
+          <input
+            type="number"
+            [(ngModel)]="match.scoreId2"
+            class="form-control mb-1"
+            placeholder="0"
+          />
+          <button
+            class="btn btn-dark btn-sm w-100 mb-1"
+            (click)="updateScore(match)"
+          >
+            Update ScoreId
+          </button>
+          <button class="btn btn-info btn-sm w-100" (click)="fetchScore(match)">
+            Fetch ScoreId
+          </button>
+        </td>
+
+        <td>
+          <div class="form-check form-switch">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              [(ngModel)]="match.isActive"
+              (change)="toggleStatus(match)"
+            />
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ✅ Pagination Controls -->
+  <div class="d-flex justify-content-between align-items-center mt-3">
+    <div>Showing {{ pageSize }} per page (Total: {{ matches.length }})</div>
+
+    <nav>
+      <ul class="pagination pagination-sm mb-0">
+        <li
+          class="page-item"
+          [class.disabled]="currentPage === 1"
+          (click)="previousPage()"
+        >
+          <a class="page-link" href="javascript:void(0)">Previous</a>
+        </li>
+
+        <li class="page-item disabled">
+          <a class="page-link" href="javascript:void(0)"
+            >Page {{ currentPage }} / {{ totalPages }}</a
+          >
+        </li>
+
+        <li
+          class="page-item"
+          [class.disabled]="currentPage === totalPages"
+          (click)="nextPage()"
+        >
+          <a class="page-link" href="javascript:void(0)">Next</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
