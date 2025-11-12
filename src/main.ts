@@ -17,7 +17,7 @@ bootstrapApplication(AppComponent, {
     provideHttpClient(),
     provideToastr({
       timeOut: 3000,
-      positionClass: 'toast-bottom-right',
+      positionClass: 'toast-top-right',
       preventDuplicates: true,
     }),
   ],

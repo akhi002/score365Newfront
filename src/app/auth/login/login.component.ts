@@ -45,7 +45,7 @@ export class LoginComponent {
 
     this.api.login(payload).subscribe({
       next: (res) => {
-        if (res?.success || res?.token) {
+        if (res?.success) {
           this.toastr.success('Login successful!');
           this.router.navigate(['/app/dashboard']);
         } else {
@@ -53,7 +53,6 @@ export class LoginComponent {
         }
       },
       error: (err) => {
-        console.error('Login error:', err);
         this.toastr.error('Login failed. Please try again.');
       },
     });
