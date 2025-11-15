@@ -1,0 +1,90 @@
+<div class="change-setting-container">
+  <h2 class="text-center mb-4">Select Default Source</h2>
+
+  <div class="row justify-content-center">
+    <!-- Cricket -->
+    <div class="col-md-3 setting-card">
+      <div class="card shadow-sm">
+        <div class="card-header bg-light text-center fw-bold">
+          Select Default Source Cricket
+        </div>
+        <div class="card-body text-center">
+          <select class="form-select mb-3" [(ngModel)]="cricketSource">
+            <option *ngFor="let s of sources" [value]="s">{{ s }}</option>
+          </select>
+          <button
+            class="btn btn-success w-100"
+            (click)="updateSource(4, cricketSource)"
+          >
+            Update Source
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Soccer -->
+    <div class="col-md-3 setting-card">
+      <div class="card shadow-sm">
+        <div class="card-header bg-light text-center fw-bold">
+          Select Default Source Soccer
+        </div>
+        <div class="card-body text-center">
+          <select class="form-select mb-3" [(ngModel)]="soccerSource">
+            <option *ngFor="let s of sources" [value]="s">{{ s }}</option>
+          </select>
+          <button
+            class="btn btn-success w-100"
+            (click)="updateSource(1, soccerSource)"
+          >
+            Update Source
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tennis -->
+    <div class="col-md-3 setting-card">
+      <div class="card shadow-sm">
+        <div class="card-header bg-light text-center fw-bold">
+          Select Default Source Tennis
+        </div>
+        <div class="card-body text-center">
+          <select class="form-select mb-3" [(ngModel)]="tennisSource">
+            <option *ngFor="let s of sources" [value]="s">{{ s }}</option>
+          </select>
+          <button
+            class="btn btn-success w-100"
+            (click)="updateSource(2, tennisSource)"
+          >
+            Update Source
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <div class="text-center mt-5">
+    <h3>Select Source</h3>
+    <div class="card shadow-sm mx-auto mt-3 select-card">
+      <div class="card-header bg-light text-center fw-bold">
+        Select Source
+      </div>
+      <div class="card-body text-center">
+        <select class="form-select mb-3" [(ngModel)]="selectedSource">
+          <option value="">Select</option>
+          <option *ngFor="let s of sources" [value]="s">{{ s }}</option>
+        </select>
+        <button
+          class="btn btn-success w-100 mb-3"
+          (click)="updateSource(null, selectedSource)"
+        >
+          Update Source
+        </button>
+        <button class="btn btn-danger w-100" (click)="deleteMatchList()">
+          Delete Match List
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -22,6 +22,8 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
+
+  loading:boolean=false
   private fb = inject(FormBuilder);
   private api = inject(ApiService);
   private toastr = inject(ToastrService);
