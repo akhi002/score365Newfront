@@ -21,7 +21,7 @@ export class ApiService {
   }
 
   allSports(body: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/matches/allSports`, body, {
+    return this.http.post<any>(`${this.baseUrl}/matches`, body, {
       withCredentials: true,
     });
   }
@@ -126,4 +126,11 @@ export class ApiService {
       withCredentials: true,
     });
   }
+
+  getScoreTypeBySportId(body: any) {
+  return this.http.post(`${this.baseUrl}/matches/getScoreTypeBySportId`, body, {
+      withCredentials: true,
+    });
+}
+
 }
