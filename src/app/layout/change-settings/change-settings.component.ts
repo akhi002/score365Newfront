@@ -15,6 +15,7 @@ export class ChangeSettingsComponent implements OnInit {
 
   private toastr = inject(ToastrService);
 
+  // Default dropdown values
   sources: string[] = ["Ckex", "Betfair", "Diamond", "Other"];
 
   cricketSource: string = "";
@@ -30,21 +31,30 @@ export class ChangeSettingsComponent implements OnInit {
     this.loadCurrentSources();
   }
 
-  /** 🔵 Fetch latest sourceType from backend */
+  /** 🔵 Load latest score type for all sports */
   loadCurrentSources() {
     this.fetchSource(4, "cricket");
     this.fetchSource(1, "soccer");
     this.fetchSource(2, "tennis");
   }
 
-  /** Helper function */
+  /** 🔵 Fetch scoreType for a single sport */
   fetchSource(sportId: number, type: "cricket" | "soccer" | "tennis") {
     this.api.getScoreTypeBySportId({ sportId }).subscribe({
       next: (res: any) => {
         if (res.success) {
-          if (type === "cricket") this.cricketSource = res.scoreType;
-          if (type === "soccer") this.soccerSource = res.scoreType;
-          if (type === "tennis") this.tennisSource = res.scoreType;
+
+          const backendValue = res.scoreType;
+
+          // ⭐ Add backend value to dropdown if missing
+          if (backendValue && !this.sources.includes(backendValue)) {
+            this.sources.push(backendValue);
+          }
+
+          // Assign received value
+          if (type === "cricket") this.cricketSource = backendValue;
+          if (type === "soccer") this.soccerSource = backendValue;
+          if (type === "tennis") this.tennisSource = backendValue;
         }
       },
       error: () => {
@@ -72,7 +82,7 @@ export class ChangeSettingsComponent implements OnInit {
           if (res.success) {
             this.toastr.success(`${this.getSportName(sportId)} source updated!`);
 
-            // 🔄 Auto-refresh the values after update
+            // 🔄 Auto-refresh after update
             this.loadCurrentSources();
           }
         },
@@ -83,7 +93,7 @@ export class ChangeSettingsComponent implements OnInit {
     }
   }
 
-  /** Delete Match List */
+  /** 🗑️ Delete Match List */
   deleteMatchList() {
     if (confirm("Are you sure you want to delete match list?")) {
       alert("🗑️ Match list deleted successfully!");
