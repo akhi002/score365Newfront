@@ -1,7 +1,11 @@
-<div class="d-flex">
-  <div class="sidebar"><app-sidebar></app-sidebar></div>
-  <div class="flex-grow-1">
-    <!-- <app-header></app-header> -->
-    <div class="main-content"><router-outlet></router-outlet></div>
+<div class="layout d-flex">
+  <div class="sidebar">
+    <app-sidebar></app-sidebar>
+  </div>
+
+  <div class="content-area flex-grow-1">
+    <div class="main-content">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>

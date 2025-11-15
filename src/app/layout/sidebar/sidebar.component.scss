@@ -1,13 +1,84 @@
-nav a {
-  color: #333;
-  text-decoration: none;
-  padding: 8px 10px;
-  border-radius: 6px;
+/* === Sidebar Navigation === */
+nav {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  padding: 8px;
+
+  a {
+    color: #333;
+    text-decoration: none;
+    padding: 10px 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease-in-out;
+    font-weight: 500;
+
+    mat-icon {
+      font-size: 20px;
+      margin-right: 10px;
+      color: #555;
+      transition: color 0.2s ease-in-out;
+    }
+
+    span {
+      font-size: 15px;
+    }
+
+    &:hover {
+      background: #e8f4ff;
+      color: #0b5ea8;
+
+      mat-icon {
+        color: #0b5ea8;
+      }
+    }
+
+    &.active {
+      background: #0b5ea8;
+      color: #fff;
+      font-weight: 600;
+
+      mat-icon {
+        color: #fff;
+      }
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 4px;
+    }
+  }
 }
-nav a.active,
-nav a:hover {
-  background: #e8f4ff;
-  color: #0b5ea8;
+
+/* === Page Layout === */
+.layout {
+  display: flex;
+  height: 100vh; /* full viewport height */
+}
+
+/* 🧲 Sticky sidebar */
+.sidebar {
+  width: 240px;
+  position: fixed; /* ✅ use fixed instead of sticky */
+  top: 0;
+  left: 0;
+  bottom: 0;
+  overflow-y: auto;
+  background: #fff;
+  border-right: 1px solid #e0e0e0;
+  z-index: 1000;
+}
+
+/* === Content Area === */
+.content-area {
+  flex: 1;
+  margin-left: 240px; /* ✅ push content beside sidebar */
+  height: 100vh;
+  overflow-y: auto;
+  background: #f9f9f9;
+}
+
+.main-content {
+  padding: 16px;
+  min-height: 100%;
 }

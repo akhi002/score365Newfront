@@ -1,0 +1,119 @@
+.change-setting-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  background: #f9fafc;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+
+  h2,
+  h3 {
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 1rem;
+  }
+
+  .row {
+    gap: 20px;
+    justify-content: center;
+  }
+
+  .setting-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  .card {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #e2e6ea;
+    background-color: #fff;
+  }
+
+  .card-header {
+    background-color: #e9f3ff !important;
+    color: #003366;
+    font-size: 1rem;
+    padding: 12px;
+    font-weight: 600;
+  }
+
+  .card-body {
+    padding: 20px;
+  }
+
+  select.form-select {
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    transition: border-color 0.2s;
+
+    &:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+    }
+  }
+
+  .btn {
+    border-radius: 6px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+
+    &:active {
+      transform: scale(0.97);
+    }
+  }
+
+  .btn-success {
+    background-color: #28a745;
+    border: none;
+    color: #fff;
+
+    &:hover {
+      background-color: #218838;
+    }
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+    border: none;
+    color: #fff;
+
+    &:hover {
+      background-color: #c82333;
+    }
+  }
+
+  .select-card {
+    max-width: 420px;
+    margin-top: 20px;
+    border-radius: 10px;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 20px;
+
+    .card-body {
+      padding: 15px;
+    }
+
+    .row {
+      gap: 15px;
+    }
+
+    .setting-card {
+      width: 100%;
+    }
+
+    .select-card {
+      width: 100%;
+    }
+  }
+}

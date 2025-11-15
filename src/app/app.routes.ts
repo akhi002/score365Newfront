@@ -4,7 +4,8 @@ import { LayoutComponent } from './layout/layout.component';
 import { DashboardComponent } from './layout/dashboard/dashboard.component';
 import { MatchesComponent } from './layout/matches/matches.component';
 import { SettingsComponent } from './layout/settings.component';
-
+import { ActiveMatchesComponent } from './layout/active-matches/active-matches.component';
+import { ChangeSettingsComponent } from './layout/change-settings/change-settings.component'; 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
   {
@@ -14,6 +15,8 @@ export const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'matches', component: MatchesComponent },
       { path: 'settings', component: SettingsComponent },
+      { path: 'active-matches', component: ActiveMatchesComponent },
+      { path: 'change-settings', component: ChangeSettingsComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },

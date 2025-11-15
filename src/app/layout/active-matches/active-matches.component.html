@@ -1,0 +1,95 @@
+<div class="matches-container">
+  <h3>Active Matches</h3>
+
+  <!-- Loading -->
+  <div class="text-center" *ngIf="loading">
+    <div class="spinner-border" role="status"></div>
+    <p class="mt-2 text-muted">Fetching active matches...</p>
+  </div>
+
+  <!-- Error -->
+  <div class="alert alert-danger text-center" *ngIf="!loading && errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Sport Tabs -->
+  <div class="sport-tabs" *ngIf="!loading && groupedMatchesKeys.length > 0">
+    <button
+      *ngFor="let sport of groupedMatchesKeys"
+      class="tab-btn"
+      [class.active]="selectedSport === sport"
+      (click)="selectSport(sport)"
+    >
+      {{ sport }}
+    </button>
+  </div>
+
+  <!-- Matches Table -->
+  <div class="table-wrapper" *ngIf="!loading && selectedSport">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Event Name</th>
+          <th>Competition</th>
+          <th>Open Date</th>
+          <th>M-Type</th>
+          <th>Market ID</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let match of groupedMatches[selectedSport]; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ match.eventName || '—' }}</td>
+          <td>{{ match.competitionName || '—' }}</td>
+          <td>{{ match.openDate | date: 'medium' }}</td>
+          <td>
+            <span
+              class="badge"
+              [ngClass]="{
+                'badge-normal': match.mType === 'normal',
+                'badge-premium': match.mType === 'premium',
+                'badge-special': match.mType === 'special',
+                'badge-vip': match.mType === 'vip',
+                'badge-live': match.isLive
+              }"
+            >
+              {{ match.mType || 'N/A' }}
+            </span>
+          </td>
+          <td>{{ match.marketId || '—' }}</td>
+          <td class="actions">
+            <a
+              *ngIf="match.tvUrl"
+              class="btn-watch"
+              target="_blank"
+              [href]="match.tvUrl"
+            >Watch</a>
+            <span *ngIf="!match.tvUrl" class="no-stream">No stream</span>
+
+            <!-- Toggle Button -->
+            <button
+              class="btn-toggle"
+              [ngClass]="{ 'active-btn': match.isActive, 'inactive-btn': !match.isActive }"
+              (click)="toggleMatchStatus(match)"
+              [disabled]="updatingMatchId === match._id"
+            >
+              <ng-container *ngIf="updatingMatchId === match._id">
+                <span class="spinner-border spinner-border-sm"></span>
+              </ng-container>
+              <ng-container *ngIf="updatingMatchId !== match._id">
+                {{ match.isActive ? 'Deactivate' : 'Activate' }}
+              </ng-container>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="!loading && (!selectedSport || groupedMatches[selectedSport]?.length === 0)">
+    No active matches found.
+  </div>
+</div>
