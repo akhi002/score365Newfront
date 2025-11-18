@@ -13,26 +13,29 @@ export class ActiveMatchesComponent implements OnInit {
   matches: any[] = [];
   groupedMatches: { [sport: string]: any[] } = {};
   groupedMatchesKeys: string[] = [];
-  selectedSport: string = "Cricket"; // Default tab
+
+  selectedSport: string = "Cricket"; // Default ONLY on first load
+
   loading = false;
   errorMessage = "";
-  updatingMatchId: string | null = null; // spinner indicator
+  updatingMatchId: string | null = null;
 
   constructor(private api: ApiService) {}
 
   ngOnInit(): void {
-    this.fetchActiveMatches();
+    this.fetchAllMatches();
   }
 
-  // 🔹 Fetch only active matches
-  fetchActiveMatches() {
+  /* Fetch ALL matches (Active + Inactive) */
+  fetchAllMatches() {
     this.loading = true;
-    this.api.getAllActiveMatches({}).subscribe({
+
+    this.api.getAllMatches({}).subscribe({
       next: (res: any) => {
         this.loading = false;
+
         if (res.status === "success" && Array.isArray(res.data)) {
-          // ✅ Keep only active matches
-          this.matches = res.data.filter((m) => m.isActive === true);
+          this.matches = res.data;
           this.groupMatchesBySport();
         } else {
           this.errorMessage = res.message || "No matches found";
@@ -45,41 +48,47 @@ export class ActiveMatchesComponent implements OnInit {
     });
   }
 
-  // 🔹 Group matches by sport
+  /* Group matches by sports */
   groupMatchesBySport() {
-    this.groupedMatches = {};
+    this.groupedMatches = {
+      Cricket: [],
+      Tennis: [],
+      Soccer: [],
+    };
+
     this.matches.forEach((match) => {
-      const sport = match.sportName || "Unknown";
-      if (!this.groupedMatches[sport]) this.groupedMatches[sport] = [];
-      this.groupedMatches[sport].push(match);
+      switch (match.sportId) {
+        case 4:
+          this.groupedMatches.Cricket.push(match);
+          break;
+        case 2:
+          this.groupedMatches.Tennis.push(match);
+          break;
+        case 1:
+          this.groupedMatches.Soccer.push(match);
+          break;
+      }
     });
 
-    this.groupedMatchesKeys = Object.keys(this.groupedMatches);
-
-    // Default to Cricket tab
-    if (this.groupedMatchesKeys.includes("Cricket")) {
-      this.selectedSport = "Cricket";
-    } else if (this.groupedMatchesKeys.length > 0) {
-      this.selectedSport = this.groupedMatchesKeys[0];
-    }
+    this.groupedMatchesKeys = ["Cricket", "Tennis", "Soccer"];
   }
 
-  // 🔹 Switch sport tab
+  /* Switch Tabs */
   selectSport(sport: string) {
     this.selectedSport = sport;
   }
 
-  // 🔹 Toggle match active/inactive and re-fetch list
+  /* Toggle Status */
   toggleMatchStatus(match: any) {
     const newStatus = !match.isActive;
-    this.updatingMatchId = match._id; // show spinner
+    this.updatingMatchId = match._id;
 
     this.api.changeMatchStatus(match._id, newStatus).subscribe({
       next: (res: any) => {
         this.updatingMatchId = null;
+
         if (res.status === "success") {
-          // ✅ Re-fetch matches to show only active ones
-          this.fetchActiveMatches();
+          this.fetchAllMatches(); // reload but DO NOT RESET tab
         } else {
           alert(res.message || "Failed to update status");
         }

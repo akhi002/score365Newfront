@@ -15,98 +15,105 @@ export class ChangeSettingsComponent implements OnInit {
 
   private toastr = inject(ToastrService);
 
-  // Default dropdown values
-  sources: string[] = ["Ckex", "Betfair", "Diamond", "Other"];
+  // Default score sources
+  sources: string[] = ["Ckex", "Betfair", "Diamond", "Leon Bet", "SS8", "Fasthik", "Other"];
 
-  cricketSource: string = "";
-  soccerSource: string = "";
-  tennisSource: string = "";
-  selectedSource: string = "";
+  // Values to display in dropdowns
+  cricketSource = "";
+  soccerSource = "";
+  tennisSource = "";
+
+  selectedSource = "";
 
   loading = false;
 
   constructor(private api: ApiService) {}
 
   ngOnInit() {
-    this.loadCurrentSources();
+    this.loadSettingsFromDB();   // <--- main function
   }
 
-  /** 🔵 Load latest score type for all sports */
-  loadCurrentSources() {
-    this.fetchSource(4, "cricket");
-    this.fetchSource(1, "soccer");
-    this.fetchSource(2, "tennis");
-  }
-
-  /** 🔵 Fetch scoreType for a single sport */
-  fetchSource(sportId: number, type: "cricket" | "soccer" | "tennis") {
-    this.api.getScoreTypeBySportId({ sportId }).subscribe({
+  /** Load ALL settings (Cricket, Soccer, Tennis) on page load */
+  loadSettingsFromDB() {
+    this.api.getAllSettings({}).subscribe({
       next: (res: any) => {
-        if (res.success) {
+        if (!res.success || !res.data) return;
 
-          const backendValue = res.scoreType;
+        res.data.forEach((item: any) => {
+          const scoreType = item.scoreType;
+          const sId = Number(item.sportId);
 
-          // ⭐ Add backend value to dropdown if missing
-          if (backendValue && !this.sources.includes(backendValue)) {
-            this.sources.push(backendValue);
+          // Add scoreTypes to dropdown list if not exists
+          if (!this.sources.includes(scoreType)) {
+            this.sources.push(scoreType);
           }
 
-          // Assign received value
-          if (type === "cricket") this.cricketSource = backendValue;
-          if (type === "soccer") this.soccerSource = backendValue;
-          if (type === "tennis") this.tennisSource = backendValue;
-        }
+          // Map scoreType to correct sport
+          if (sId === 4) this.cricketSource = scoreType;
+          if (sId === 1) this.soccerSource = scoreType;
+          if (sId === 2) this.tennisSource = scoreType;
+        });
       },
       error: () => {
-        console.log(`Failed to load source for sport ${sportId}`);
-      },
+        this.toastr.error("Failed to load settings");
+      }
     });
   }
 
-  /** 🟢 Update score type */
+  /** Update scoreType for any sport */
   updateSource(sportId: number | null, scoreType: string) {
-    if (!scoreType) {
-      this.toastr.error("Please select a source!");
-      return;
-    }
+    if (!scoreType) return this.toastr.error("Please select a source!");
+    if (!sportId) return this.toastr.error("Please select a sport!");
 
     this.loading = true;
 
-    if (sportId) {
-      let body = { sportId, scoreType };
+    const body = { sportId, scoreType };
 
-      this.api.updateScoreTypeForSetting(body).subscribe({
-        next: (res: any) => {
-          this.loading = false;
+    this.api.updateScoreTypeForSetting(body).subscribe({
+      next: (res: any) => {
+        this.loading = false;
 
-          if (res.success) {
-            this.toastr.success(`${this.getSportName(sportId)} source updated!`);
-
-            // 🔄 Auto-refresh after update
-            this.loadCurrentSources();
-          }
-        },
-        error: () => {
-          this.loading = false;
+        if (res.success) {
+          this.toastr.success(res.message);
+          this.loadSettingsFromDB(); // Reload updated values
         }
-      });
-    }
+      },
+      error: () => {
+        this.loading = false;
+        this.toastr.error("Failed to update source");
+      }
+    });
   }
 
-  /** 🗑️ Delete Match List */
+  /* update all scoreType */
+  updateAllScoreTypes(scoreType: string) {
+  if (!scoreType) {
+    return this.toastr.error("Please select a source!");
+  }
+
+  this.loading = true;
+
+  this.api.updateAllScoreTypes({ scoreType }).subscribe({
+    next: (res: any) => {
+      this.loading = false;
+
+      if (res.status) {
+        this.toastr.success(res.message);
+      } else {
+        this.toastr.error("Failed to update all matches");
+      }
+    },
+    error: () => {
+      this.loading = false;
+      this.toastr.error("Server error updating all matches");
+    }
+  });
+}
+
+  /** Delete match list */
   deleteMatchList() {
     if (confirm("Are you sure you want to delete match list?")) {
-      alert("🗑️ Match list deleted successfully!");
-    }
-  }
-
-  /** Helper */
-  getSportName(sportId: number): string {
-    switch (sportId) {
-      case 4: return "Cricket";
-      case 1: return "Soccer";
-      case 2: return "Tennis";
-      default: return "Unknown Sport";
+      alert("Match list deleted successfully!");
     }
   }
 }

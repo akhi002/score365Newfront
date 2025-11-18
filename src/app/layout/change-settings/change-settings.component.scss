@@ -2,110 +2,132 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 30px 20px;
-  background: #f9fafc;
-  border-radius: 8px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+  background: #f5f7fb;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
 
   h2,
   h3 {
-    font-weight: 600;
-    color: #222;
+    font-weight: 700;
+    color: #1e2a38;
     margin-bottom: 1rem;
+    letter-spacing: 0.3px;
   }
 
+  /* ROW spacing */
   .row {
-    gap: 20px;
+    gap: 25px;
     justify-content: center;
   }
 
+  /* CARD HOVER IMPROVED */
   .setting-card {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: all 0.25s ease;
 
     &:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transform: translateY(-6px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
     }
   }
 
+  /* CARD DESIGN */
   .card {
-    border-radius: 10px;
+    border-radius: 12px;
     overflow: hidden;
-    border: 1px solid #e2e6ea;
+    border: 1px solid #e3e6ea;
     background-color: #fff;
+    transition: all 0.25s ease;
   }
 
+  /* CARD HEADER */
   .card-header {
-    background-color: #e9f3ff !important;
+    background-color: #e3f0ff !important;
     color: #003366;
     font-size: 1rem;
     padding: 12px;
-    font-weight: 600;
+    font-weight: 700;
+    text-transform: uppercase;
   }
 
+  /* CARD BODY */
   .card-body {
-    padding: 20px;
+    padding: 22px;
   }
 
+  /* SELECT DROPDOWN */
   select.form-select {
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    transition: border-color 0.2s;
+    border-radius: 8px;
+    border: 1px solid #c8cdd3;
+    padding: 10px;
+    font-size: 0.95rem;
+    transition: all 0.25s ease;
 
     &:focus {
       border-color: #007bff;
-      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.30);
+    }
+
+    &:hover {
+      border-color: #8892a0;
     }
   }
 
+  /* BUTTONS */
   .btn {
-    border-radius: 6px;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    border-radius: 8px;
+    transition: background-color 0.25s ease, transform 0.12s ease;
+    padding: 10px 15px;
+    font-weight: 600;
 
     &:active {
-      transform: scale(0.97);
+      transform: scale(0.96);
     }
   }
 
   .btn-success {
     background-color: #28a745;
-    border: none;
     color: #fff;
+    border: none;
+    box-shadow: 0 3px 10px rgba(40, 167, 69, 0.20);
 
     &:hover {
-      background-color: #218838;
+      background-color: #208838;
     }
   }
 
   .btn-danger {
     background-color: #dc3545;
-    border: none;
     color: #fff;
+    border: none;
+    box-shadow: 0 3px 10px rgba(220, 53, 69, 0.20);
 
     &:hover {
       background-color: #c82333;
     }
   }
 
+  /* SELECT SOURCE BOX */
   .select-card {
-    max-width: 420px;
-    margin-top: 20px;
-    border-radius: 10px;
-    transition: all 0.2s ease-in-out;
+    max-width: 450px;
+    margin-top: 25px;
+    border-radius: 12px;
+    transition: all 0.25s ease;
 
     &:hover {
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
     }
   }
 
+  /* RESPONSIVE */
   @media (max-width: 768px) {
     padding: 20px;
 
     .card-body {
-      padding: 15px;
+      padding: 16px;
     }
 
     .row {
-      gap: 15px;
+      gap: 18px;
     }
 
     .setting-card {
@@ -114,6 +136,7 @@
 
     .select-card {
       width: 100%;
+      margin-top: 20px;
     }
   }
 }

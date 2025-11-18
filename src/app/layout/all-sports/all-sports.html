@@ -1,5 +1,5 @@
 <div class="container mt-3">
-  <h4 class="fw-bold mb-3">All Sports Matches</h4>
+  <h4 class="fw-bold mb-3">All Active Matches</h4>
 
   <table class="table table-bordered table-hover align-middle text-center">
     <thead class="table-light">
@@ -13,6 +13,7 @@
         <th>Select Source</th>
         <th>Update ScoreId</th>
         <th>Inactive</th>
+        <th>Score</th>
       </tr>
     </thead>
 
@@ -26,16 +27,16 @@
       >
         <td>{{ (currentPage - 1) * pageSize + i + 1 }}</td>
 
-        <td >{{ match.marketId}}/ {{match.eventId }}</td>
+        <td>{{ match.marketId}}/ {{match.eventId }}</td>
 
         <td>
           <a href="#" class="text-primary fw-bold">{{ match.eventName }}</a>
         </td>
 
         <td>
-          <span *ngIf="match.mType" class="badge bg-primary">{{
-            match.mType
-          }}</span>
+          <span *ngIf="match.mType" class="badge bg-primary"
+            >{{ match.mType }}</span
+          >
         </td>
 
         <td>
@@ -57,15 +58,15 @@
         </td>
 
         <td>
-          <input
+          <!-- <input
             type="number"
             [(ngModel)]="match.scoreId1"
             class="form-control mb-1"
             placeholder="0"
-          />
+          /> -->
           <input
             type="number"
-            [(ngModel)]="match.scoreId2"
+            [(ngModel)]="match.scoreId"
             class="form-control mb-1"
             placeholder="0"
           />
@@ -89,6 +90,15 @@
               (change)="toggleStatus(match)"
             />
           </div>
+        </td>
+
+        <td>
+          <button
+            class="btn btn-primary btn-sm w-100"
+            (click)="goToIframePage(match)"
+          >
+            View Score
+          </button>
         </td>
       </tr>
     </tbody>

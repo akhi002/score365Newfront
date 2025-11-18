@@ -8,6 +8,8 @@ import { ActiveMatchesComponent } from "./layout/active-matches/active-matches.c
 import { ChangeSettingsComponent } from "./layout/change-settings/change-settings.component";
 import { AllSports } from "./layout/all-sports/all-sports";
 import { Whitelisting } from "./layout/whitelisting/whitelisting";
+import { Iframe } from "./layout/iframe/iframe";
+import { ScoreNotFound } from "./layout/score-not-found/score-not-found";
 export const routes: Routes = [
   { path: "", component: LoginComponent },
   {
@@ -21,6 +23,9 @@ export const routes: Routes = [
       { path: "white-listing", component: Whitelisting },
       { path: "active-matches", component: ActiveMatchesComponent },
       { path: "change-settings", component: ChangeSettingsComponent },
+      { path: "score-not-found", component: ScoreNotFound },
+      { path: "iframe/:eventId", component: Iframe },
+
       { path: "", redirectTo: "dashboard", pathMatch: "full" },
     ],
   },

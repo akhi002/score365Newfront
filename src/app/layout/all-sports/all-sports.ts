@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import { ApiService } from "../../services/api.service";
+import { Router, RouterLinkWithHref } from "@angular/router";
 
 @Component({
   selector: "all-sports",
@@ -14,9 +15,10 @@ import { ApiService } from "../../services/api.service";
 export class AllSports implements OnInit {
   private api = inject(ApiService);
   private toastr = inject(ToastrService);
+  private router = inject(Router);
 
   selectedSport: string = "";
-  sources: string[] = ["Ckex", "OtherSource"];
+  sources: string[] = ["Ckex", "Leon Bet", "SS8", "ourRadar", "Fasthik"];
   matches: any[] = [];
 
   // ✅ Pagination variables
@@ -56,6 +58,7 @@ export class AllSports implements OnInit {
     this.api.updateMatchScores(payload).subscribe({
       next: () => {
         this.toastr.success(`Source updated for ${match.eventName}`);
+        this.loadAllSports();
         match.scoreType = match.source;
       },
       error: (err) => {
@@ -98,6 +101,11 @@ export class AllSports implements OnInit {
         console.error(err);
         this.toastr.error("Failed to update status");
       },
+    });
+  }
+
+  goToIframePage(match: any) {
+    this.router.navigate(["/app/iframe", match.eventId], {
     });
   }
 }

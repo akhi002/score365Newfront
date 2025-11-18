@@ -20,8 +20,14 @@ export class ApiService {
     );
   }
 
+  // allSports(body: any): Observable<any> {
+  //   return this.http.post<any>(`${this.baseUrl}/matches`, body, {
+  //     withCredentials: true,
+  //   });
+  // }
+
   allSports(body: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/matches`, body, {
+    return this.http.post<any>(`${this.baseUrl}/matches/allSports`, body, {
       withCredentials: true,
     });
   }
@@ -105,6 +111,18 @@ export class ApiService {
     });
   }
 
+  getScoreUrl(body: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/matches/getscoreurl`, body, {
+      withCredentials: true,
+    });
+  }
+
+  getMatchByEventId(body: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/matches/matchByEventId`, body, {
+      withCredentials: true,
+    });
+  }
+
   ///////////////////////---------------- SOURIN API--------------------------------/////////////////////
 
   getAllActiveMatches(body: any): Observable<any> {
@@ -128,9 +146,23 @@ export class ApiService {
   }
 
   getScoreTypeBySportId(body: any) {
-  return this.http.post(`${this.baseUrl}/matches/getScoreTypeBySportId`, body, {
-      withCredentials: true,
-    });
-}
+    return this.http.post(
+      `${this.baseUrl}/matches/getScoreTypeBySportId`,
+      body,
+      {
+        withCredentials: true,
+      }
+    );
+  }
 
+  getAllSettings(body: any): Observable<any> {
+    return this.http.post(
+      `
+      ${this.baseUrl}/matches/getAllSettings`,
+      body,
+      { withCredentials: true }
+    );
+  }
+
+  /** Update all scoreTypes at once */
 }
