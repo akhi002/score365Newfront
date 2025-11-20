@@ -49,7 +49,7 @@ export class LoginComponent {
       next: (res) => {
         if (res?.success) {
           this.toastr.success('Login successful!');
-          this.router.navigate(['/app/dashboard']);
+          this.router.navigate(['/app/all-sports']);
         } else {
           this.toastr.error(res?.message || 'Invalid credentials');
         }
