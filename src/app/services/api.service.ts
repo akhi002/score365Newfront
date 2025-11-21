@@ -166,7 +166,7 @@ export class ApiService {
   }
 
   updateScoreTypeForSetting(body: any) {
-    return this.http.post(`${this.baseUrl}/matches/updateScoreType`, body, {
+    return this.http.post(`${this.baseUrl}/matches/updateScoreTypeForNewMatches`, body, {
       withCredentials: true,
     });
   }
