@@ -16,7 +16,7 @@ export class ChangeSettingsComponent implements OnInit {
   private toastr = inject(ToastrService);
 
   // Default score sources
-  sources: string[] = ["Ckex", "Betfair", "Diamond", "Leon Bet", "SS8", "Fasthik", "Other"];
+  sources: string[] = ["Ckex", "ourRadar", "Leon Bet", "SS8", "Fasthik", "None"];
 
   // Values to display in dropdowns
   cricketSource = "";

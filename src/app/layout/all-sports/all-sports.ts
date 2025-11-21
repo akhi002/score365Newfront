@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import { ApiService } from "../../services/api.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "all-sports",
@@ -14,12 +15,16 @@ import { ApiService } from "../../services/api.service";
 export class AllSports implements OnInit {
   private api = inject(ApiService);
   private toastr = inject(ToastrService);
+  private router = inject(Router);
 
-  selectedSport: string = "";
-  sources: string[] = ["Ckex", "OtherSource"];
+  sources: string[] = ["Ckex", "Leon Bet", "SS8", "ourRadar", "Fasthik"];
+
   matches: any[] = [];
+  filteredMatches: any[] = [];
 
-  // ✅ Pagination variables
+  selectedTab: string = "cricket"; // UI tab highlight
+  selectedSportId: number = 4; // Cricket = 4
+
   currentPage = 1;
   pageSize = 100;
   totalPages = 1;
@@ -32,17 +37,28 @@ export class AllSports implements OnInit {
     this.api.allSports({}).subscribe({
       next: (res: any) => {
         this.matches = res?.data || [];
-        this.totalPages = Math.ceil(this.matches.length / this.pageSize);
-        this.toastr.success("Sports loaded successfully!");
+        this.applyFilter();
+        // this.toastr.success("Matches loaded successfully!");
       },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("Failed to load sports");
-      },
+      error: () => this.toastr.error("Failed to load matches"),
     });
   }
 
-  // ✅ Pagination handlers
+  changeTab(tabName: string, sportId: number) {
+    this.selectedTab = tabName;
+    this.selectedSportId = sportId;
+    this.currentPage = 1;
+    this.applyFilter();
+  }
+
+  applyFilter() {
+    this.filteredMatches = this.matches.filter(
+      (x) => x.sportId === this.selectedSportId
+    );
+
+    this.totalPages = Math.ceil(this.filteredMatches.length / this.pageSize);
+  }
+
   nextPage() {
     if (this.currentPage < this.totalPages) this.currentPage++;
   }
@@ -53,51 +69,45 @@ export class AllSports implements OnInit {
 
   updateSource(match: any) {
     const payload = { id: match._id, scoreType: match.scoreType };
+
     this.api.updateMatchScores(payload).subscribe({
       next: () => {
         this.toastr.success(`Source updated for ${match.eventName}`);
-        match.scoreType = match.source;
+        this.loadAllSports();
       },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("Failed to update source");
-      },
+      error: () => this.toastr.error("Failed to update source"),
     });
   }
 
   updateScore(match: any) {
     const payload = {
       id: match._id,
-      scoreId1: match.scoreId1,
-      scoreId2: match.scoreId2,
+      scoreId: match.scoreId,
     };
+
     this.api.updateMatchScores(payload).subscribe({
       next: () => this.toastr.success(`Score updated for ${match.eventName}`),
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("Failed to update score");
-      },
+      error: () => this.toastr.error("Failed to update score"),
     });
-  }
-
-  fetchScore(match: any) {
-    // Uncomment when backend ready
   }
 
   toggleStatus(match: any) {
     const payload = { id: match._id, isActive: match.isActive };
+
     this.api.updateStatus(payload).subscribe({
       next: () => {
         this.toastr.success(
-          `${match.eventName} marked as ${
-            match.isActive ? "Active" : "Inactive"
-          }`
-        );
+          `${match.eventName} is now ${match.isActive ? "ACTIVE" : "INACTIVE"}`
+        ),
+          this.loadAllSports();
       },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("Failed to update status");
-      },
+      error:(err:any)=>{
+
+      }
     });
+  }
+
+  goToIframePage(match: any) {
+    this.router.navigate(["/app/iframe", match.eventId]);
   }
 }

@@ -1,6 +1,39 @@
 <div class="container mt-3">
-  <h4 class="fw-bold mb-3">All Sports Matches</h4>
+<h4 class="fw-bold mb-3">
+   Active {{ selectedTab | titlecase }} Matches
+</h4>
 
+  <!-- ====== SPORT TABS ====== -->
+  <ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        [class.active]="selectedTab === 'cricket'"
+        (click)="changeTab('cricket', 4)"
+        >Cricket</a
+      >
+    </li>
+
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        [class.active]="selectedTab === 'soccer'"
+        (click)="changeTab('soccer', 1)"
+        >Soccer</a
+      >
+    </li>
+
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        [class.active]="selectedTab === 'tennis'"
+        (click)="changeTab('tennis', 2)"
+        >Tennis</a
+      >
+    </li>
+  </ul>
+
+  <!-- ====== MATCH TABLE ====== -->
   <table class="table table-bordered table-hover align-middle text-center">
     <thead class="table-light">
       <tr>
@@ -13,24 +46,23 @@
         <th>Select Source</th>
         <th>Update ScoreId</th>
         <th>Inactive</th>
+        <th>Score</th>
       </tr>
     </thead>
 
     <tbody>
       <tr
         *ngFor="
-          let match of matches
+          let match of filteredMatches
             | slice : (currentPage - 1) * pageSize : currentPage * pageSize;
           let i = index
         "
       >
         <td>{{ (currentPage - 1) * pageSize + i + 1 }}</td>
 
-        <td >{{ match.marketId}}/ {{match.eventId }}</td>
+        <td>{{ match.marketId }}/{{ match.eventId }}</td>
 
-        <td>
-          <a href="#" class="text-primary fw-bold">{{ match.eventName }}</a>
-        </td>
+        <td><a class="text-primary fw-bold">{{ match.eventName }}</a></td>
 
         <td>
           <span *ngIf="match.mType" class="badge bg-primary">{{
@@ -39,19 +71,18 @@
         </td>
 
         <td>
-          <span class="badge bg-warning text-dark">{{ match.sportName }}</span>
+          <span class="badge bg-warning text-dark">{{
+            match.sportName
+          }}</span>
         </td>
 
-        <td>{{ match.openDate | date: "dd/MM/yyyy hh:mm:ss a" }}</td>
+        <td>{{ match.openDate | date : "dd/MM/yyyy hh:mm:ss a" }}</td>
 
         <td>
           <select class="form-select mb-1" [(ngModel)]="match.scoreType">
             <option *ngFor="let s of sources" [value]="s">{{ s }}</option>
           </select>
-          <button
-            class="btn btn-success btn-sm w-100"
-            (click)="updateSource(match)"
-          >
+          <button class="btn btn-success btn-sm w-100" (click)="updateSource(match)">
             Update Source
           </button>
         </td>
@@ -59,22 +90,18 @@
         <td>
           <input
             type="number"
-            [(ngModel)]="match.scoreId1"
             class="form-control mb-1"
+            [(ngModel)]="match.scoreId"
             placeholder="0"
           />
-          <input
-            type="number"
-            [(ngModel)]="match.scoreId2"
-            class="form-control mb-1"
-            placeholder="0"
-          />
+
           <button
             class="btn btn-dark btn-sm w-100 mb-1"
             (click)="updateScore(match)"
           >
             Update ScoreId
           </button>
+
           <button class="btn btn-info btn-sm w-100" (click)="fetchScore(match)">
             Fetch ScoreId
           </button>
@@ -90,13 +117,22 @@
             />
           </div>
         </td>
+
+        <td>
+          <button class="btn btn-primary btn-sm w-100" (click)="goToIframePage(match)">
+            View Score
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>
 
-  <!-- ✅ Pagination Controls -->
-  <div class="d-flex justify-content-between align-items-center mt-3">
-    <div>Showing {{ pageSize }} per page (Total: {{ matches.length }})</div>
+  <!-- Pagination -->
+  <div class="d-flex justify-content-between mt-3">
+    <div>
+      Showing {{ pageSize }} per page (Total:
+      {{ filteredMatches.length }})
+    </div>
 
     <nav>
       <ul class="pagination pagination-sm mb-0">
@@ -105,13 +141,11 @@
           [class.disabled]="currentPage === 1"
           (click)="previousPage()"
         >
-          <a class="page-link" href="javascript:void(0)">Previous</a>
+          <a class="page-link">Previous</a>
         </li>
 
         <li class="page-item disabled">
-          <a class="page-link" href="javascript:void(0)"
-            >Page {{ currentPage }} / {{ totalPages }}</a
-          >
+          <a class="page-link">Page {{ currentPage }} / {{ totalPages }}</a>
         </li>
 
         <li
@@ -119,7 +153,7 @@
           [class.disabled]="currentPage === totalPages"
           (click)="nextPage()"
         >
-          <a class="page-link" href="javascript:void(0)">Next</a>
+          <a class="page-link">Next</a>
         </li>
       </ul>
     </nav>
