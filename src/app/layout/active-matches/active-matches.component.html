@@ -37,8 +37,8 @@
     </thead>
 
     <tbody>
-      <tr *ngFor="let match of groupedMatches[selectedSport]; let i = index">
-        <td>{{ i + 1 }}</td>
+      <tr *ngFor="let match of getPaginatedMatches(selectedSport); let i = index">
+        <td>{{ i + 1 + (currentPage[selectedSport] - 1) * pageSize }}</td>
 
         <td>
           <div class="market-id">{{ match.marketId }}</div>
@@ -62,4 +62,24 @@
       </tr>
     </tbody>
   </table>
+
+  <!-- PAGINATION -->
+  <div class="pagination-controls">
+    <button 
+      (click)="changePage(selectedSport, -1)"
+      [disabled]="currentPage[selectedSport] === 1">
+      Prev
+    </button>
+
+    <span>
+      Page {{ currentPage[selectedSport] }} /
+      {{ getTotalPages(selectedSport) }}
+    </span>
+
+    <button 
+      (click)="changePage(selectedSport, 1)"
+      [disabled]="currentPage[selectedSport] === getTotalPages(selectedSport)">
+      Next
+    </button>
+  </div>
 </div>

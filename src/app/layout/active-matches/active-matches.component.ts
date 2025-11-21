@@ -14,11 +14,19 @@ export class ActiveMatchesComponent implements OnInit {
   groupedMatches: { [sport: string]: any[] } = {};
   groupedMatchesKeys: string[] = [];
 
-  selectedSport: string = "Cricket"; // Default ONLY on first load
+  selectedSport: string = "Cricket";
 
   loading = false;
   errorMessage = "";
   updatingMatchId: string | null = null;
+
+  // 🔹 Pagination
+  pageSize = 10;
+  currentPage: { [sport: string]: number } = {
+    Cricket: 1,
+    Tennis: 1,
+    Soccer: 1
+  };
 
   constructor(private api: ApiService) {}
 
@@ -69,8 +77,25 @@ export class ActiveMatchesComponent implements OnInit {
           break;
       }
     });
+  }
 
-    this.groupedMatchesKeys = ["Cricket", "Tennis", "Soccer"];
+  /* Pagination Logic */
+  getPaginatedMatches(sport: string) {
+    const start = (this.currentPage[sport] - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    return this.groupedMatches[sport].slice(start, end);
+  }
+
+  getTotalPages(sport: string): number {
+    return Math.ceil(this.groupedMatches[sport].length / this.pageSize) || 1;
+  }
+
+  changePage(sport: string, direction: number) {
+    const totalPages = this.getTotalPages(sport);
+    this.currentPage[sport] += direction;
+
+    if (this.currentPage[sport] < 1) this.currentPage[sport] = 1;
+    if (this.currentPage[sport] > totalPages) this.currentPage[sport] = totalPages;
   }
 
   /* Switch Tabs */
@@ -88,7 +113,7 @@ export class ActiveMatchesComponent implements OnInit {
         this.updatingMatchId = null;
 
         if (res.status === "success") {
-          this.fetchAllMatches(); // reload but DO NOT RESET tab
+          this.fetchAllMatches();
         } else {
           alert(res.message || "Failed to update status");
         }
