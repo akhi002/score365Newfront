@@ -60,7 +60,11 @@
       >
         <td>{{ (currentPage - 1) * pageSize + i + 1 }}</td>
 
-        <td>{{ match.marketId }}/{{ match.eventId }}</td>
+      <td class="d-flex flex-column">
+   <span>{{ match.marketId }}</span>
+   <span>{{ match.eventId }}</span>
+</td>
+
 
         <td><a class="text-primary fw-bold">{{ match.eventName }}</a></td>
 

@@ -35,7 +35,7 @@ export class ActiveMatchesComponent implements OnInit {
         this.loading = false;
 
         if (res.status === "success" && Array.isArray(res.data)) {
-          this.matches = res.data;
+          this.matches = res.allMatches;
           this.groupMatchesBySport();
         } else {
           this.errorMessage = res.message || "No matches found";

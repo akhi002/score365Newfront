@@ -31,6 +31,7 @@ export class AllSports implements OnInit {
 
   ngOnInit(): void {
     this.loadAllSports();
+    
   }
 
   loadAllSports() {
