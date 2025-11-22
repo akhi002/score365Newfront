@@ -1,6 +1,11 @@
 <div class="container mt-3">
   <h4 class="fw-bold mb-3">Active {{ selectedTab | titlecase }} Matches</h4>
 
+ <div class="d-flex">
+  <button class="btn btn-primary ms-auto" (click)="syncMachesLoading()">Sync Matches</button>
+</div>
+
+
   <!-- ====== SPORT TABS ====== -->
   <ul class="nav nav-tabs mb-3">
     <li class="nav-item">

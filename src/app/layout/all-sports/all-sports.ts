@@ -111,4 +111,13 @@ export class AllSports implements OnInit {
   goToIframePage(match: any) {
     this.router.navigate(["/app/iframe", match.eventId]);
   }
+
+  syncMachesLoading(){
+    this.api.addSyncMatches({}).subscribe({
+      next:(res:any)=>{
+         this.loadAllSports()
+         this.toastr.success("Matches Sync Successfully!")
+      }
+    })
+  }
 }

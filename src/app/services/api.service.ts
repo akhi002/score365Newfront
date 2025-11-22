@@ -123,6 +123,12 @@ export class ApiService {
     });
   }
 
+  addSyncMatches(body:any){
+    return this.http.post<any>(`${this.baseUrl}/matches/syncMatches`, body, {
+      withCredentials: true,
+    });
+  }
+
   ///////////////////////---------------- SOURIN API--------------------------------/////////////////////
 
   getAllActiveMatches(body: any): Observable<any> {
