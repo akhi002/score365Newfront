@@ -1,7 +1,5 @@
 <div class="container mt-3">
-<h4 class="fw-bold mb-3">
-   Active {{ selectedTab | titlecase }} Matches
-</h4>
+  <h4 class="fw-bold mb-3">Active {{ selectedTab | titlecase }} Matches</h4>
 
   <!-- ====== SPORT TABS ====== -->
   <ul class="nav nav-tabs mb-3">
@@ -60,33 +58,42 @@
       >
         <td>{{ (currentPage - 1) * pageSize + i + 1 }}</td>
 
-      <td class="d-flex flex-column">
-   <span>{{ match.marketId }}</span>
-   <span>{{ match.eventId }}</span>
-</td>
-
+        <td class="d-flex flex-column">
+          <span>{{ match.marketId }}</span>
+          <span>{{ match.eventId }}</span>
+        </td>
 
         <td><a class="text-primary fw-bold">{{ match.eventName }}</a></td>
 
         <td>
-          <span *ngIf="match.mType" class="badge bg-primary">{{
-            match.mType
-          }}</span>
+          <span *ngIf="match.mType" class="badge bg-primary"
+            >{{ match.mType }}</span
+          >
         </td>
 
         <td>
-          <span class="badge bg-warning text-dark">{{
-            match.sportName
-          }}</span>
+          <span class="badge bg-warning text-dark">{{ match.sportName }}</span>
         </td>
 
         <td>{{ match.openDate | date : "dd/MM/yyyy hh:mm:ss a" }}</td>
 
         <td>
-          <select class="form-select mb-1" [(ngModel)]="match.scoreType">
+          <!-- <select class="form-select mb-1" [(ngModel)]="match.scoreType">
             <option *ngFor="let s of sources" [value]="s">{{ s }}</option>
+          </select> -->
+          <select
+            class="form-select mb-1"
+            [(ngModel)]="match.scoreType"
+            [ngModelOptions]="{standalone: true}"
+          >
+            <option value="">Select</option>
+            <option *ngFor="let s of sources" [ngValue]="s">{{ s }}</option>
           </select>
-          <button class="btn btn-success btn-sm w-100" (click)="updateSource(match)">
+
+          <button
+            class="btn btn-success btn-sm w-100"
+            (click)="updateSource(match)"
+          >
             Update Source
           </button>
         </td>
@@ -123,7 +130,10 @@
         </td>
 
         <td>
-          <button class="btn btn-primary btn-sm w-100" (click)="goToIframePage(match)">
+          <button
+            class="btn btn-primary btn-sm w-100"
+            (click)="goToIframePage(match)"
+          >
             View Score
           </button>
         </td>
@@ -134,8 +144,7 @@
   <!-- Pagination -->
   <div class="d-flex justify-content-between mt-3">
     <div>
-      Showing {{ pageSize }} per page (Total:
-      {{ filteredMatches.length }})
+      Showing {{ pageSize }} per page (Total: {{ filteredMatches.length }})
     </div>
 
     <nav>
