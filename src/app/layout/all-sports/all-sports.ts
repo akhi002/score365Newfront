@@ -17,7 +17,7 @@ export class AllSports implements OnInit {
   private toastr = inject(ToastrService);
   private router = inject(Router);
 
-  sources: string[] = ["Ckex", "Leon Bet", "SS8", "ourRadar", "Fasthik"];
+  sources: string[] = ["Ckex", "Leon Bet", "SS8", "ourRadar", "Fasthik","Diamond"];
 
   matches: any[] = [];
   filteredMatches: any[] = [];
