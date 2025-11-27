@@ -76,16 +76,16 @@ export class MatchesComponent implements OnInit {
       tvUrl: match.url,
     };
 
-    // this.api.setTvUrl(payload).subscribe({
-    //   next: (res) => {
-    //     this.toastr.success(`TV URL set for ${match.eventName}`);
-    //     match.tvUrl = match.url; // update displayed link
-    //   },
-    //   error: (err) => {
-    //     console.error(err);
-    //     this.toastr.error("Failed to set TV URL");
-    //   },
-    // });
+    this.api.updateTVUrl(payload).subscribe({
+      next: (res) => {
+        this.toastr.success(`TV URL set for ${match.eventName}`);
+        match.tvUrl = match.url; // update displayed link
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("Failed to set TV URL");
+      },
+    });
   }
 
   fetchTvUrl(match: any) {

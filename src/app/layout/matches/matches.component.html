@@ -34,7 +34,6 @@
           <th>Event Name</th>
           <th>Sport Name</th>
           <th>Open Date</th>
-          <th>TV URL</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -48,7 +47,7 @@
           <td>{{ match.openDate | date : "MM/dd/yyyy hh:mm:ss a" }}</td>
 
           <!-- ✅ Show TV URL -->
-          <td>
+          <!-- <td>
             <div *ngIf="match.tvUrl; else noUrl">
               <a
                 [href]="match.tvUrl"
@@ -61,7 +60,7 @@
             <ng-template #noUrl>
               <span class="text-muted">No TV URL</span>
             </ng-template>
-          </td>
+          </td> -->
 
           <!-- ✅ Action Buttons -->
           <td>

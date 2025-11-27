@@ -124,14 +124,22 @@
         </td>
 
         <td>
-          <div class="form-check form-switch">
-            <input
+          <!-- <div class="form-check form-switch"> -->
+            <!-- <input
               class="form-check-input"
               type="checkbox"
               [(ngModel)]="match.isActive"
               (change)="toggleStatus(match)"
+            /> -->
+             <label class="switch">
+            <input
+              type="checkbox"
+               [(ngModel)]="match.isActive"
+              (change)="toggleStatus(match)"
             />
-          </div>
+            <span class="slider round"></span>
+          </label>
+          <!-- </div> -->
         </td>
 
         <td>

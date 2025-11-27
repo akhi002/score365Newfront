@@ -123,8 +123,14 @@ export class ApiService {
     });
   }
 
-  addSyncMatches(body:any){
+  addSyncMatches(body: any) {
     return this.http.post<any>(`${this.baseUrl}/matches/syncMatches`, body, {
+      withCredentials: true,
+    });
+  }
+
+  updateTVUrl(body: any) {
+    return this.http.post<any>(`${this.baseUrl}/matches/setTvUrl`, body, {
       withCredentials: true,
     });
   }
@@ -146,9 +152,13 @@ export class ApiService {
   }
 
   updateScoreTypeForSetting(body: any) {
-    return this.http.post(`${this.baseUrl}/matches/updateScoreTypeForNewMatches`, body, {
-      withCredentials: true,
-    });
+    return this.http.post(
+      `${this.baseUrl}/matches/updateScoreTypeForNewMatches`,
+      body,
+      {
+        withCredentials: true,
+      }
+    );
   }
 
   getScoreTypeBySportId(body: any) {
