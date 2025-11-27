@@ -17,7 +17,14 @@ export class AllSports implements OnInit {
   private toastr = inject(ToastrService);
   private router = inject(Router);
 
-  sources: string[] = ["Ckex", "Leon Bet", "SS8", "ourRadar", "Fasthik","Diamond"];
+  sources: string[] = [
+    "Ckex",
+    "Leon Bet",
+    "SS8",
+    "ourRadar",
+    "Fasthik",
+    "Diamond",
+  ];
 
   matches: any[] = [];
   filteredMatches: any[] = [];
@@ -31,7 +38,6 @@ export class AllSports implements OnInit {
 
   ngOnInit(): void {
     this.loadAllSports();
-    
   }
 
   loadAllSports() {
@@ -102,22 +108,20 @@ export class AllSports implements OnInit {
         ),
           this.loadAllSports();
       },
-      error:(err:any)=>{
-
-      }
+      error: (err: any) => {},
     });
   }
 
   goToIframePage(match: any) {
-    this.router.navigate(["/app/iframe", match.eventId]);
+    this.router.navigate([`/app/iframe/${match.eventId}`]);
   }
 
-  syncMachesLoading(){
+  syncMachesLoading() {
     this.api.addSyncMatches({}).subscribe({
-      next:(res:any)=>{
-         this.loadAllSports()
-         this.toastr.success("Matches Sync Successfully!")
-      }
-    })
+      next: (res: any) => {
+        this.loadAllSports();
+        this.toastr.success("Matches Sync Successfully!");
+      },
+    });
   }
 }
