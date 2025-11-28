@@ -24,6 +24,7 @@ export class AllSports implements OnInit {
     "ourRadar",
     "Fasthik",
     "Diamond",
+    "Betfair", 
   ];
 
   matches: any[] = [];

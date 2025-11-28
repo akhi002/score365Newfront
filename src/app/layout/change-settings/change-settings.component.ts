@@ -93,7 +93,7 @@ export class ChangeSettingsComponent implements OnInit {
 
   this.loading = true;
 
-  this.api.updateAllScoreTypes({ scoreType }).subscribe({
+  this.api.updateAllScoreTypes({ scoreType,sportId:"all" }).subscribe({
     next: (res: any) => {
       this.loading = false;
 
