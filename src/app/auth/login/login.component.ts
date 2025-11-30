@@ -1,15 +1,17 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { ToastrService } from 'ngx-toastr';
-import { ApiService } from '../../services/api.service';
+import { Component, inject } from "@angular/core";
+import { FormBuilder, Validators, ReactiveFormsModule } from "@angular/forms";
+import { Router } from "@angular/router";
+import { MatCardModule } from "@angular/material/card";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatButtonModule } from "@angular/material/button";
+import { ToastrService } from "ngx-toastr";
+import { ApiService } from "../../services/api.service";
+import { CookieService } from "ngx-cookie-service";
+import { DecodingService } from "../../services/decoding-service";
 
 @Component({
-  selector: 'app-login',
+  selector: "app-login",
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -18,25 +20,26 @@ import { ApiService } from '../../services/api.service';
     MatInputModule,
     MatButtonModule,
   ],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  templateUrl: "./login.component.html",
+  styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent {
-
-  loading:boolean=false
+  loading: boolean = false;
   private fb = inject(FormBuilder);
   private api = inject(ApiService);
   private toastr = inject(ToastrService);
   private router = inject(Router);
+  private cookie = inject(CookieService);
+  private decode = inject(DecodingService);
 
   loginForm = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
+    email: ["", [Validators.required, Validators.email]],
+    password: ["", [Validators.required, Validators.minLength(6)]],
   });
 
   onLogin() {
     if (this.loginForm.invalid) {
-      this.toastr.warning('Please fill all fields correctly.');
+      this.toastr.warning("Please fill all fields correctly.");
       return;
     }
 
@@ -48,14 +51,16 @@ export class LoginComponent {
     this.api.login(payload).subscribe({
       next: (res) => {
         if (res?.success) {
-          this.toastr.success('Login successful!');
-          this.router.navigate(['/app/all-sports']);
+          this.toastr.success("Login successful!");
+          this.router.navigate(["/app/all-sports"]);
+          const encryptedUserId = this.decode.encrypt(res.encryptedUserId);
+          this.cookie.set("enc_uid", JSON.stringify(encryptedUserId));
         } else {
-          this.toastr.error(res?.message || 'Invalid credentials');
+          this.toastr.error(res?.message || "Invalid credentials");
         }
       },
       error: (err) => {
-        this.toastr.error('Login failed. Please try again.');
+        this.toastr.error("Login failed. Please try again.");
       },
     });
   }

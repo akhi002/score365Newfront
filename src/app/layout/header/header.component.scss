@@ -1,0 +1,34 @@
+.app-topbar {
+  background: #1e1e2f;
+  color: white;
+  padding: 0 16px;
+  height: 64px;
+
+  .app-logo {
+    font-size: 28px;
+    color: #ffca28;
+  }
+
+  .app-title {
+    font-size: 20px;
+    letter-spacing: 0.5px;
+  }
+
+  button.mat-icon-button {
+    color: #ffffffcc;
+    transition: 0.2s ease-in-out;
+
+    &:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  .logout-btn mat-icon {
+    color: #ff5252 !important;
+  }
+
+  .logout-btn:hover mat-icon {
+    color: #ff1744 !important;
+  }
+}

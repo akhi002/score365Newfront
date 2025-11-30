@@ -1,4 +1,4 @@
-<mat-toolbar class="app-topbar"
+<!-- <mat-toolbar class="app-topbar"
   ><div class="d-flex align-items-center">
     <span class="me-3"><strong>Score Project</strong></span>
   </div>
@@ -6,4 +6,32 @@
   ><button mat-icon-button>
     <mat-icon>account_circle</mat-icon>
   </button></mat-toolbar
->
+> -->
+
+<mat-toolbar class="app-topbar shadow-sm">
+
+  <!-- LEFT SIDE -->
+  <div class="d-flex align-items-center">
+    <mat-icon class="app-logo me-2">sports_score</mat-icon>
+    <span class="app-title"><strong>Score Project</strong></span>
+  </div>
+
+  <span class="flex-grow-1"></span>
+
+  <!-- RIGHT SIDE PROFILE + LOGOUT -->
+  <div class="d-flex align-items-center">
+
+    <!-- PROFILE ICON -->
+    <button mat-icon-button class="me-2 profile-btn">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+
+    <!-- LOGOUT ICON -->
+    <button mat-icon-button class="logout-btn" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+    </button>
+
+  </div>
+
+</mat-toolbar>
+
